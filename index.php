@@ -9,7 +9,7 @@ $endpointController = new checkoutController();
 $base_path = '/Server-Api-Rest-PHP';
 $request_uri = str_replace($base_path, '', $_SERVER['REQUEST_URI']);
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && $request_uri === '/formToken') {
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && $request_uri === '/formtoken') {
     $endpointController->formToken();
 } elseif ($_SERVER['REQUEST_METHOD'] === 'POST' && $request_uri === '/validate') {
     $endpointController->validate();
