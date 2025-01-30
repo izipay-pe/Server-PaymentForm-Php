@@ -58,7 +58,7 @@ class checkoutController {
 
     public function validate(){
         $inputJSON = file_get_contents('php://input');
-        parse_str($inputJSON, $data);
+        $data = json_decode($inputJSON, true);
 
         if (empty($data)) {
             throw new Exception("No post data received!");
