@@ -138,7 +138,7 @@ public function formToken() {
 ```
 Podrás acceder a esta API a través:
 ```bash
-localhost/Server-Api-Rest-PHP/formToken
+localhost/Server-Api-Rest-PHP/formtoken
 ```
 ℹ️ Para más información: [Formtoken](https://secure.micuentaweb.pe/doc/es-PE/rest/V4.0/javascript/guide/embedded/formToken.html)
 
