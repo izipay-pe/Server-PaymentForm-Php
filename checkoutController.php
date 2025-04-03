@@ -76,10 +76,21 @@ class checkoutController {
         if (empty($data)) {
             throw new Exception("No post data received!");
         }
-          
-        $validate = $this->checkHash($data, PASSWORD);
 
-        echo json_encode($validate);
+        if (!$this->checkHash($data, PASSWORD)) {
+            throw new Exception("Invalid signature");
+        }
+          
+        $answer = json_decode($data["kr-answer"], true);
+
+        $transaction = $answer['transactions'][0];
+        
+        //Verificar orderStatus: PAID / UNPAID
+        $orderStatus = $answer['orderStatus'];
+        $orderId = $answer['orderDetails']['orderId'];
+        $transactionUuid = $transaction['uuid'];
+        
+        print 'OK! OrderStatus is ' . $orderStatus;
     }
 
     public function checkHash($data, $key){
