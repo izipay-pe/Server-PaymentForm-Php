@@ -6,7 +6,7 @@ header("Access-Control-Allow-Headers: Content-Type");
 
 $endpointController = new checkoutController();
 
-$base_path = '/Server-PaymentForm-Php-main';
+$base_path = '/Server-PaymentForm-Php-main'; //[nombre_de_proyecto]
 $request_uri = str_replace($base_path, '', $_SERVER['REQUEST_URI']);
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && $request_uri === '/formtoken') {
