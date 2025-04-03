@@ -138,7 +138,7 @@ public function formToken() {
 ```
 Podrás acceder a esta API a través:
 ```bash
-localhost/Server-Api-Rest-PHP/formtoken
+localhost/[nombre_de_proyecto]/formtoken
 ```
 ℹ️ Para más información: [Formtoken](https://secure.micuentaweb.pe/doc/es-PE/rest/V4.0/javascript/guide/embedded/formToken.html)
 
@@ -175,7 +175,7 @@ El servidor devuelve un valor booleano `true` o `false` verificando si los datos
 
 Podrás acceder a esta API a través:
 ```bash
-localhost/Server-Api-Rest-PHP/validate
+localhost/[nombre_de_proyecto]/validate
 ```
 
 ℹ️ Para más información: [Analizar resultado del pago](https://secure.micuentaweb.pe/doc/es-PE/rest/V4.0/kb/payment_done.html)
@@ -197,15 +197,26 @@ public function ipn(){
     if (empty($data)) {
         throw new Exception("No post data received!");
     }
-      
-    $validate = $this->checkHash($data, PASSWORD);
 
-    echo json_encode($validate);
+    if (!$this->checkHash($data, PASSWORD)) {
+        throw new Exception("Invalid signature");
+    }
+      
+    $answer = json_decode($data["kr-answer"], true);
+
+    $transaction = $answer['transactions'][0];
+    
+    //Verificar orderStatus: PAID / UNPAID
+    $orderStatus = $answer['orderStatus'];
+    $orderId = $answer['orderDetails']['orderId'];
+    $transactionUuid = $transaction['uuid'];
+    
+    print 'OK! OrderStatus is ' . $orderStatus;
 }
 ```
 Podrás acceder a esta API a través:
 ```bash
-localhost/Server-Api-Rest-PHP/ipn
+localhost/[nombre_de_proyecto]/ipn
 ```
 
 La ruta o enlace de la IPN debe ir configurada en el Backoffice Vendedor, en `Configuración -> Reglas de notificación -> URL de notificación al final del pago`
@@ -236,10 +247,10 @@ define("HMAC_SHA256","~ CHANGE_ME_HMAC_SHA_256 ~");
 ```
 
 ## 📮 5. Probar desde POSTMAN
-* Puedes probar la generación del formToken desde POSTMAN. Coloca la URL con el metodo POST con la ruta `/formToken`.
+* Puedes probar la generación del formToken desde POSTMAN. Coloca la URL con el metodo POST con la ruta `/formtoken`.
   
  ```bash
-localhost/Server-Api-Rest-PHP/formToken
+localhost/[nombre_de_proyecto]/formtoken
 ```
 
 * Datos a enviar en formato JSON raw:
